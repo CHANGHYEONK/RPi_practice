@@ -1,0 +1,25 @@
+def xtest(*argv, **kwargs): # 가변 매개변수 선언
+    print(type(argv))
+    print("length: ", len(argv))
+
+    for i in argv:
+        print(i)
+    
+    print(kwargs)
+
+# xtest(1, 2, 3, 4, 5)
+# xtest(1, 2, 3)
+
+# data = [1, 2, 3, 4, 5]
+# xtest(*data)
+
+xtest(a=100, b=200)
+t = {
+    'a': 300,
+    'b': 400
+}
+xtest(**t) # xtest(a=300, b=400)
+
+
+xtest("mp4v")
+xtest(*"mp4v")
