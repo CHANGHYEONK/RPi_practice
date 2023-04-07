@@ -1,8 +1,8 @@
 import cv2
 
-cap = cv2.VideoCapture(0) # 0번 카메라
+# cap = cv2.VideoCapture(0) # 0번 카메라
 # cap = cv2.VideoCapture("./data/vtest.avi") # 비디오 파일
-# cap = cv2.VideoCapture("http://192.168.219.101:4747/video") # 핸드폰
+cap = cv2.VideoCapture("http://192.168.219.101:4747/video") # 핸드폰
 # cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 # cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 
