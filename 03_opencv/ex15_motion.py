@@ -2,21 +2,26 @@ import cv2
 from datetime import datetime
 from gpiozero import MotionSensor
 from time import sleep
+from converter import convert
+from upload import upload, notify_intrusion
 
 cap = cv2.VideoCapture(0) # 0번 카메라
 frame_size = (640, 480)
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+fname = None
 
 recording = False
 recorder = None
 
 def start_record():
-    global recorder, recording
+    global recorder, recording, fname       # fname 전역변수 처리 해주기! 
     start = datetime.now()
-    fname = start.strftime('./data/%Y%m%d_%H:%M:%S.mp4')
-    recorder = cv2.VideoWriter(fname, fourcc, 20.0, frame_size)
+    fname = start.strftime('./data/%Y%m%d_%H:%M:%S')
+    recorder = cv2.VideoWriter(fname+'._mp4', fourcc, 20.0, frame_size)
     # 전역변수 read는 global 선언 안해도 ok / write는 global 선언 필요
     recording = True
+    notify_intrusion()
+    
     
 def stop_record():
     global recorder, recording
@@ -24,7 +29,17 @@ def stop_record():
     sleep(0.1)
     recorder.release()
     recorder = None
-    
+    # 변환하기
+    src = fname + '._mp4'
+    dst = fname + '.mp4'
+    convert(src, dst)
+    # 녹화 파일을 iot 서버에 업로드
+    result = upload(dst)
+    if result:
+        print('업로드 성공:', dst)
+    else:
+        print('업로드 실패:', dst)
+
 
 pir = MotionSensor(12)
 pir.when_motion = start_record
@@ -45,6 +60,8 @@ while True:
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.6, (255, 255, 255), 1, cv2.LINE_AA)
     recorder.write(frame)
+
+
 
     # cv2.imshow('frame', frame)
     cv2.waitKey(40)
