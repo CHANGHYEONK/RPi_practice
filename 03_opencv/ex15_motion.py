@@ -5,7 +5,7 @@ from time import sleep
 from converter import convert
 from upload import upload, notify_intrusion
 
-cap = cv2.VideoCapture(0) # 0번 카메라
+cap = cv2.VideoCapture(1) # 1번 카메라: opencv / 0번: picamera
 frame_size = (640, 480)
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 fname = None
@@ -61,14 +61,10 @@ while True:
                 0.6, (255, 255, 255), 1, cv2.LINE_AA)
     recorder.write(frame)
 
-
-
-    # cv2.imshow('frame', frame)
     cv2.waitKey(40)
     # key = cv2.waitKey(25)
     # if key == 27: break # ESC
 
-# cap.release()
-# out1.release()
+cap.release()
 
-# cv2.destroyAllWindows()
+cv2.destroyAllWindows()

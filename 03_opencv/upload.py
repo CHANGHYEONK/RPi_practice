@@ -1,6 +1,6 @@
 import requests
 
-UPLOAD_URL = 'http://172.30.1.106:8000/iot/upload/'
+UPLOAD_URL = 'http://172.30.1.103:8000/iot/upload/'
 
 def upload(file_path):
     file_name = file_path.split('/')[-1]
@@ -15,7 +15,8 @@ def upload(file_path):
     else:
         return False
 
-INTRUSION_URL = 'http://172.30.1.106:8000/iot/intrusion/'
+
+INTRUSION_URL = 'http://172.30.1.103:8000/iot/intrusion/'
 
 def notify_intrusion():
     response = requests.get(INTRUSION_URL)
